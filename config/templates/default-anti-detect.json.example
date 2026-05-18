@@ -1,0 +1,131 @@
+{
+  "$schema": "https://raw.githubusercontent.com/alei-xi/fast-spider-skills-kit/main/config/schema.json",
+  "$description": "基准反检测模板 — 所有爬虫项目的默认配置起点。复制到 config/targets/<项目名>.json 后按目标站点调整。",
+
+  "// ── 浏览器指纹种子 ──": "",
+  "// fingerprint_seed": "固定种子 = 相同指纹（调试/回归）。'random' = 进程启动时 Date.now()（生产推荐）。",
+  "// canvas_dimensions": "默认 300x150 匹配 Chrome 标准。降低可减少 PNG 编码开销。",
+  "fingerprint": {
+    "seed": "random",
+    "canvas_dimensions": { "width": 300, "height": 150 },
+    "canvas_noise_amplitude": 3,
+    "audio_sample_rate": 44100
+  },
+
+  "// ── WebGL 硬件配置 ──": "",
+  "// profile": "预定义配置文件名称或 'random'（从池中种子选择）。",
+  "// profiles 可用: intel_integrated, nvidia_desktop, amd_desktop, apple_silicon, angle_intel": "",
+  "// gpu_pool_override": "完全替换内置 GPU 池。仅当 profile='custom' 时使用。",
+  "webgl": {
+    "profile": "intel_integrated",
+    "gpu_pool_override": null
+  },
+
+  "// ── document.all 处理 ──": "",
+  "// monitoring_enabled": "记录所有对 document.all 的访问（调试用）。",
+  "// cpp_addon_path": "sdenv 风格 C++ 插件的路径（如已编译）。null = 使用纯 JS 折中方案。",
+  "document_all": {
+    "monitoring_enabled": true,
+    "cpp_addon_path": null
+  },
+
+  "// ── 浏览器环境表面 ──": "",
+  "// user_agent": "必须匹配目标页面加载的 Chrome 版本。错误的 UA 签名将被拒绝。",
+  "// platform": "Win32 | MacIntel | Linux x86_64",
+  "// languages": "优先级顺序；zh-CN 为首匹配中国目标。",
+  "// viewport": "匹配 UA 的平台惯例。",
+  "browser": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+    "platform": "Win32",
+    "languages": ["zh-CN", "zh", "en"],
+    "viewport": {
+      "width": 1920,
+      "height": 1080,
+      "avail_width": 1920,
+      "avail_height": 1040,
+      "color_depth": 24,
+      "pixel_depth": 24,
+      "device_pixel_ratio": 1
+    },
+    "timezone_offset": -480
+  },
+
+  "// ── 插件配置 ──": "",
+  "// count": "navigator.plugins.length。5 匹配 Chrome 标准。",
+  "// custom_plugins": "覆盖默认的 5 个 PDF 插件。[] = 使用默认值。",
+  "plugins": {
+    "count": 5,
+    "custom_plugins": []
+  },
+
+  "// ── 反检测开关 ──": "",
+  "// clear_node_globals": "将 process/require/global/module/Deno 设为 undefined。始终开启。",
+  "// safefunction_enabled": "劫持 Function.prototype.toString 返回 [native code]。始终开启。",
+  "// prototype_locking": "在构建后锁定所有原型（防止 SDK 覆盖）。",
+  "// webdriver_undefined": "确保 navigator.webdriver 不存在。",
+  "// cookie_enabled": "navigator.cookieEnabled 的值。",
+  "// hardware_concurrency": "navigator.hardwareConcurrency。8 匹配现代笔记本。",
+  "// device_memory": "navigator.deviceMemory。8 匹配 8GB+ 设备。",
+  "anti_detection": {
+    "clear_node_globals": true,
+    "safefunction_enabled": true,
+    "prototype_locking": false,
+    "webdriver_undefined": true,
+    "cookie_enabled": true,
+    "hardware_concurrency": 8,
+    "device_memory": 8,
+    "max_touch_points": 0
+  },
+
+  "// ── 网络存根 ──": "",
+  "// fake_response_json": "XHR.send() 返回的响应体。SDK 初始化 token 请求依赖此结构。",
+  "// fake_status": "HTTP 状态码。",
+  "// fake_headers": "响应头。",
+  "network": {
+    "fake_response_json": "{\"data\":{\"d\":\"\",\"e\":\"\",\"f\":\"\"},\"message\":\"success\",\"status_code\":0}",
+    "fake_status": 200,
+    "fake_headers": { "content-type": "application/json" }
+  },
+
+  "// ── 生命周期钩子 ──": "",
+  "// before_parse": "注入脚本（字符串）或 null。在窗口构建完成后、冻结前执行。",
+  "//   $TARGET_HOSTNAME 被替换为当前目标主机名。",
+  "//   $TIMESTAMP 被替换为当前 Unix 毫秒时间戳。",
+  "// after_create": "创建 vm.createContext() 后执行的脚本。",
+  "lifecycle": {
+    "before_parse": null,
+    "after_create": null
+  },
+
+  "// ── 日志 ──": "",
+  "// level": "debug | info | warn | error | silent",
+  "// output": "stderr | stdout | file:<path>",
+  "// log_document_all_accesses": "将 document.all 访问日志写入日志流。",
+  "logging": {
+    "level": "warn",
+    "output": "stderr",
+    "log_document_all_accesses": true
+  },
+
+  "// ── 性能 ──": "",
+  "// cache_sandbox": "跨签名请求复用沙箱（更快，但 SDK 定时器会累积）。",
+  "// sdk_init_timeout_ms": "等待 SDK 初始化的超时时间。",
+  "// signature_timeout_ms": "单次签名操作的超时时间。",
+  "performance": {
+    "cache_sandbox": true,
+    "sdk_init_timeout_ms": 15000,
+    "signature_timeout_ms": 5000
+  },
+
+  "// ── 目标元数据 ──": "",
+  "// name": "人类可读的目标标识符（例如 'ecommerce-search', 'social-feed'）。 # TODO: Replace with your platform name",
+  "// description": "简要说明此配置的目标。",
+  "// version": "配置版本（bump on changes）。",
+  "// last_validated": "此配置最后一次通过 Phase 7 HTTP 验证的 ISO 日期。",
+  "target": {
+    "name": "default-template",
+    "description": "默认基准模板。复制并自定义每个目标。",
+    "version": "1.0.0",
+    "last_validated": null
+  }
+}

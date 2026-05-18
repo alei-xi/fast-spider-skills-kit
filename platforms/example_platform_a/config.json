@@ -1,0 +1,37 @@
+{
+  "name": "example_platform_a",
+  "description": "Reference platform — demonstrates the BasePlatform interface for a hypothetical site.",
+
+  "target": {
+    "homepage": "https://www.example.com/",
+    "test_url": "https://www.example.com/api/search",
+    "sdk_glob_pattern": "signer*.js"
+  },
+
+  "fingerprint": {
+    "canvas_seed": 42,
+    "webgl_profile": "intel_integrated",
+    "canvas_width": 300,
+    "canvas_height": 150
+  },
+
+  "browser": {
+    "user_agent_override": null
+  },
+
+  "anti_detection": {
+    "hide_webdriver": true,
+    "spoof_plugins": true,
+    "lock_prototypes": false,
+    "monitor_document_all": true
+  },
+
+  "scrape": {
+    "headers": {},
+    "cookies": [],
+    "proxy": null,
+    "timeout_ms": 30000
+  },
+
+  "before_parse_script": "win.document.cookie = 'session=demo'; win.__challengeState = { nonce: String(Date.now()) };"
+}
