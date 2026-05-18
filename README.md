@@ -4,7 +4,7 @@
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue)](https://python.org)
 
-> **面向国内爬虫逆向工程师的工业级补环境框架。** 在 Node.js `vm` 沙箱中构建高仿真浏览器环境，将目标站点原样的 JSVMP / 混淆加签 SDK 直接离线执行，产出有效签名——全程无需 Headless Browser。
+> **面向爬虫逆向工程师的补环境框架。** 在 Node.js `vm` 沙箱中构建高仿真浏览器环境，将目标站点原样的 JSVMP / 混淆加签 SDK 直接离线执行，产出有效签名——全程无需 Headless Browser。
 
 ### 你面临的问题 → 本框架的解法
 
